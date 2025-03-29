@@ -52,7 +52,7 @@ export default function HomePage() {
     <Container maxW="container.xl" centerContent height="100vh">
       <SimpleGrid pb={10} columns={{
         base: 1,
-        sm: 2,
+        sm: 1,
         md: 2,
         lg: 3,
         xl: 3,
