@@ -160,15 +160,15 @@ export default function SpeedMatchChallenge() {
       const interval = settings.timeLimit / 100;
 
       roundTimerRef.current = window.setInterval(() => {
-        if (timeLeft <= 0) {
-          // Time's up for this round
-          if (roundTimerRef.current) clearInterval(roundTimerRef.current);
-          handleAnswer(null); // No answer provided in time
-          setTimeLeft(0);
-        } else {
-          setTimeLeft(timeLeft - 1);
-        }
-
+        setTimeLeft((prev) => {
+          if (prev <= 0) {
+            // Time's up for this round
+            if (roundTimerRef.current) clearInterval(roundTimerRef.current);
+            handleAnswer(null); // No answer provided in time
+            return 0;
+          }
+          return prev - 1;
+        });
       }, interval);
     }, 300); // Flip animation duration
   };
