@@ -89,9 +89,7 @@ export default function SpeedMatchChallenge() {
   // Hooks
   const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const cardBgColor = useColorModeValue("gray.700", "white");
-
-  const successAudio = new Audio("/mixkit-winning-a-coin-video-game-2069.wav");
+  const cardBgColor = useColorModeValue("gray.700", "gray.700");
 
   // Load game history from localStorage on component mount
   useEffect(() => {
@@ -209,6 +207,9 @@ export default function SpeedMatchChallenge() {
       // Success feedback
       if (soundEnabled) {
         // Add sound effect here if desired
+        const successAudio = new Audio(
+          "/mixkit-winning-a-coin-video-game-2069.wav"
+        );
         if (successAudio) {
           console.log("Playing success audio");
           successAudio.play();
