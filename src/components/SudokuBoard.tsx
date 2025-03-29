@@ -71,7 +71,10 @@ const SudokuBoard: React.FC<SudokuBoardProps> = ({
         <Grid
           templateColumns={`repeat(${gridSize}, 1fr)`}
           gap={0}
-          width={`${gridSize * 50}px`}
+          width={{
+            base: gridSize > 4 ? `${gridSize * 30}px` : `${gridSize * 50}px`,
+            md: `${gridSize * 50}px`,
+          }}
           maxW="100%"
           mx="auto"
         >
@@ -106,8 +109,14 @@ const SudokuBoard: React.FC<SudokuBoardProps> = ({
               return (
                 <GridItem
                   key={`cell-${rowIndex}-${colIndex}`}
-                  w="50px"
-                  h="50px"
+                  w={{
+                    base: gridSize > 4 ? "30px" : "50px",
+                    md: "50px",
+                  }}
+                  h={{
+                    base: gridSize > 4 ? "30px" : "50px",
+                    md: "50px",
+                  }}
                   borderRight={borderRight}
                   borderBottom={borderBottom}
                   borderTop={rowIndex === 0 ? "3px solid #333" : ""}
@@ -135,7 +144,10 @@ const SudokuBoard: React.FC<SudokuBoardProps> = ({
                     <MotionBox
                       key={`value-${cell}-${Date.now()}`}
                       position="absolute"
-                      fontSize={gridSize > 4 ? "xl" : "2xl"}
+                      fontSize={{
+                        base: gridSize > 4 ? "sm" : "2xl",
+                        md: gridSize > 4 ? "xl" : "2xl",
+                      }}
                       fontWeight={isOriginal ? "bold" : "normal"}
                       color={isOriginal ? "black" : "blue.600"}
                       animation={!isOriginal ? `${popIn} 0.3s` : "none"}

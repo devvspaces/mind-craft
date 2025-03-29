@@ -382,6 +382,7 @@ export default function Home() {
           bg="white"
           hidden={loadingNewGame}
           w={'fit-content'}
+          maxW="100%"
           mx={"auto"}
         >
           {board.length > 0 && (

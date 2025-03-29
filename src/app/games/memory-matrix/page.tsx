@@ -56,8 +56,16 @@ export default function MemoryMatrixGame() {
   return (
     <Container maxW="container.md" centerContent>
       <VStack spacing={6} width="full" py={10}>
-        <HStack width="full" justify="space-between">
-          <Heading color={textColor}>Memory Matrix</Heading>
+        <HStack width="full" gap={4} justify="space-between">
+          <Heading
+            size={{
+              base: "lg",
+              md: "xl",
+            }}
+            color={textColor}
+          >
+            Memory Matrix
+          </Heading>
           <HStack spacing={4}>
             <HStack width="full" justify="space-between">
               <Tooltip hasArrow label="Starts a new game" placement="top">
@@ -126,7 +134,7 @@ export default function MemoryMatrixGame() {
           </VStack>
         ) : (
           <Box w={"100%"}>
-            <Text textAlign={'center'} mb={4} fontSize="xl" color={textColor}>
+            <Text textAlign={"center"} mb={4} fontSize="xl" color={textColor}>
               Round: {gameState.currentRound} |
               <Badge colorScheme="teal" fontSize="md" ml={2}>
                 {gameState.isShowingPattern ? "Memorize Pattern" : "Your Turn"}

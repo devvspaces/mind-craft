@@ -85,6 +85,7 @@ export default function SpeedMatchChallenge() {
   // Refs (using number type for timer IDs in browser)
   const roundTimerRef = useRef<number | null>(null);
   const flipRef = useRef<number | null>(null);
+  const successAudioRef = useRef<HTMLAudioElement | null>(null);
 
   // Hooks
   const toast = useToast();
@@ -159,15 +160,15 @@ export default function SpeedMatchChallenge() {
       const interval = settings.timeLimit / 100;
 
       roundTimerRef.current = window.setInterval(() => {
-        setTimeLeft((prev) => {
-          if (prev <= 0) {
-            // Time's up for this round
-            if (roundTimerRef.current) clearInterval(roundTimerRef.current);
-            handleAnswer(null); // No answer provided in time
-            return 0;
-          }
-          return prev - 1;
-        });
+        if (timeLeft <= 0) {
+          // Time's up for this round
+          if (roundTimerRef.current) clearInterval(roundTimerRef.current);
+          handleAnswer(null); // No answer provided in time
+          setTimeLeft(0);
+        } else {
+          setTimeLeft(timeLeft - 1);
+        }
+
       }, interval);
     }, 300); // Flip animation duration
   };
@@ -188,12 +189,12 @@ export default function SpeedMatchChallenge() {
 
     if (isMatch === actualMatch) {
       // Correct answer
-      setScore((prev) => prev + settings.points);
-      setStreak((prev) => prev + 1);
+      setScore(score + settings.points);
+      setStreak(streak + 1);
 
       // Bonus points for streaks
       if (streak > 0 && streak % 5 === 0) {
-        setScore((prev) => prev + settings.points * 2);
+        setScore(score + settings.points * 2);
         toast({
           title: "Streak Bonus!",
           description: `+${settings.points * 2} points`,
@@ -206,18 +207,19 @@ export default function SpeedMatchChallenge() {
 
       // Success feedback
       if (soundEnabled) {
-        // Add sound effect here if desired
-        const successAudio = new Audio(
-          "/mixkit-winning-a-coin-video-game-2069.wav"
-        );
-        if (successAudio) {
-          console.log("Playing success audio");
-          successAudio.play();
+        if (successAudioRef.current) {
+          successAudioRef.current.pause();
+          successAudioRef.current.currentTime = 0;
+        } else {
+          successAudioRef.current = new Audio(
+            "/mixkit-winning-a-coin-video-game-2069.wav"
+          );
         }
+        if (successAudioRef.current) successAudioRef.current.play();
       }
     } else {
       // Wrong answer
-      setScore((prev) => Math.max(0, prev - settings.penalty));
+      setScore(Math.max(0, score - settings.penalty));
       setStreak(0);
 
       // Failure feedback
@@ -242,12 +244,29 @@ export default function SpeedMatchChallenge() {
   const textColor = useColorModeValue("gray.800", "whiteAlpha.900");
 
   return (
-    <Box minH="100vh" py={5}>
+    <Box minH="100vh">
       <Container maxW="container.md">
         <VStack spacing={6}>
           {/* Header */}
-          <Flex w="full" justify="space-between" align="center" p={4}>
-            <Heading w={"full"} size="lg" color={textColor}>
+          <Flex
+            gap={4}
+            mb={6}
+            w="full"
+            justify="space-between"
+            align="center"
+            p={{
+              base: 0,
+              md: 4,
+            }}
+          >
+            <Heading
+              w={"full"}
+              size={{
+                base: "md",
+                md: "xl",
+              }}
+              color={textColor}
+            >
               Speed Match Challenge
             </Heading>
             <HStack>
@@ -388,7 +407,7 @@ export default function SpeedMatchChallenge() {
                         position={"relative"}
                         p={0}
                       >
-                        {currentSymbol ? (
+                        {currentSymbol === SYMBOL1 ? (
                           <Square color={cardBgColor} />
                         ) : (
                           <Circle color={cardBgColor} />

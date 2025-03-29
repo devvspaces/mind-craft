@@ -367,7 +367,15 @@ export default function StroopGame() {
             align="center"
             wrap={"wrap"}
           >
-            <Heading color={textColor} as="h1" size="xl" textAlign="center">
+            <Heading
+              color={textColor}
+              as="h1"
+              size={{
+                base: "lg",
+                md: "xl",
+              }}
+              textAlign="center"
+            >
               Mind Over Hue
             </Heading>
             <HStack>
@@ -457,7 +465,10 @@ export default function StroopGame() {
           >
             <Box
               w="full"
-              p={6}
+              p={{
+                base: 3,
+                md: 6,
+              }}
               borderRadius="lg"
               bg={feedbackColor || "white"}
               transition="background-color 0.3s"
@@ -465,13 +476,34 @@ export default function StroopGame() {
               textAlign="center"
             >
               <HStack justify="space-between" mb={6}>
-                <Badge colorScheme="blue" fontSize="md" p={2}>
+                <Badge
+                  colorScheme="blue"
+                  fontSize={{
+                    base: "sm",
+                    md: "md",
+                  }}
+                  p={2}
+                >
                   Round: {roundNumber}/{totalRounds}
                 </Badge>
-                <Badge colorScheme="green" fontSize="md" p={2}>
+                <Badge
+                  colorScheme="green"
+                  fontSize={{
+                    base: "sm",
+                    md: "md",
+                  }}
+                  p={2}
+                >
                   Score: {currentSession.score}
                 </Badge>
-                <Badge colorScheme="orange" fontSize="md" p={2}>
+                <Badge
+                  colorScheme="orange"
+                  fontSize={{
+                    base: "sm",
+                    md: "md",
+                  }}
+                  p={2}
+                >
                   Time: {currentRound.timeRemaining}s
                 </Badge>
               </HStack>

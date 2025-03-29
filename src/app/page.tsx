@@ -50,7 +50,13 @@ export default function HomePage() {
 
   return (
     <Container maxW="container.xl" centerContent height="100vh">
-      <SimpleGrid columns={3} spacing={10}>
+      <SimpleGrid pb={10} columns={{
+        base: 1,
+        sm: 2,
+        md: 2,
+        lg: 3,
+        xl: 3,
+      }} spacing={10}>
         {games.map((game, index) => (
           <motion.div
             key={index}
